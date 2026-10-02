@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <title>OFFSCRIPT — Events worth showing up for</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f7f5ef;
+      --ink: #17211e;
+      --muted: #68716b;
+      --line: #deded5;
+      --green: #235b49;
+      --lime: #d8ef73;
+      --coral: #e16f53;
+      --white: #fffefa;
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; text-decoration: none; }
+    .shell { width: min(1200px, calc(100% - 64px)); margin: 0 auto; }
+
+    .site-header { height: 78px; border-bottom: 1px solid var(--line); display: flex; align-items: center; }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; }
+    .brand-mark { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: var(--lime); font-size: 14px; }
+    .header-nav { display: flex; align-items: center; gap: 30px; }
+    .header-nav a { color: var(--muted); font-size: 13px; font-weight: 600; }
+    .header-nav a:hover { color: var(--ink); }
+    .bookings-button { border: 1px solid var(--ink); background: transparent; border-radius: 3px; padding: 10px 15px; display: inline-flex; align-items: center; gap: 9px; cursor: pointer; font-size: 13px; font-weight: 700; }
+    .bookings-button:hover { background: var(--ink); color: var(--white); }
+    .booking-count { min-width: 19px; height: 19px; padding: 0 5px; border-radius: 10px; background: var(--lime); color: var(--ink); display: grid; place-items: center; font-size: 11px; }
+
+    .hero { display: grid; grid-template-columns: 1fr 1.05fr; gap: 60px; align-items: center; padding: 58px 0 62px; }
+    .eyebrow { color: var(--green); display: flex; align-items: center; gap: 9px; text-transform: uppercase; font-size: 11px; font-weight: 700; }
+    .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--green); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 530px; margin: 20px 0 18px; font-family: var(--serif); font-size: 64px; line-height: 1.02; font-weight: 500; }
+    h1 em { color: var(--green); font-weight: 500; }
+    .hero-copy { max-width: 440px; color: var(--muted); font-size: 15px; line-height: 1.7; }
+    .search-form { display: flex; align-items: center; gap: 10px; max-width: 480px; margin-top: 28px; padding: 7px 7px 7px 15px; border: 1px solid var(--line); border-radius: 3px; background: var(--white); }
+    .search-symbol { color: var(--green); font-size: 20px; line-height: 1; }
+    .search-form input { flex: 1; width: 0; padding: 9px 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 13px; }
+    .search-form input::placeholder { color: #858b84; }
+    .search-form button, .primary-button { border: 0; border-radius: 2px; background: var(--green); color: white; padding: 12px 17px; cursor: pointer; font-size: 12px; font-weight: 700; }
+    .search-form button:hover, .primary-button:hover { background: #174735; }
+    .hero-art { min-height: 350px; position: relative; overflow: hidden; background: #34574c; }
+    .hero-art img { width: 100%; height: 390px; display: block; object-fit: cover; object-position: center 54%; }
+    .hero-art::after { content: ""; position: absolute; inset: 35% 0 0; background: linear-gradient(transparent, rgba(12, 22, 18, .78)); pointer-events: none; }
+    .hero-event { position: absolute; z-index: 1; bottom: 23px; left: 25px; right: 25px; color: white; display: flex; align-items: end; justify-content: space-between; gap: 20px; }
+    .hero-event small { display: block; margin-bottom: 7px; color: var(--lime); font-size: 10px; font-weight: 700; text-transform: uppercase; }
+    .hero-event h2 { margin: 0; font-family: var(--serif); font-weight: 500; font-size: 29px; }
+    .hero-event p { margin: 7px 0 0; color: rgba(255,255,255,.8); font-size: 12px; }
+    .hero-event button { flex: 0 0 auto; width: 43px; height: 43px; border: 0; border-radius: 50%; display: grid; place-items: center; background: var(--lime); cursor: pointer; font-size: 21px; }
+    .hero-event button:hover { transform: translateX(2px); }
+
+    .events-section { padding: 39px 0 82px; border-top: 1px solid var(--line); }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+    .section-heading .eyebrow { margin-bottom: 10px; }
+    .section-heading h2 { margin: 0; font-family: var(--serif); font-size: 36px; font-weight: 500; }
+    .result-count { margin: 0 0 5px; color: var(--muted); font-size: 12px; }
+    .category-list { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; margin-bottom: 26px; scrollbar-width: thin; }
+    .category-button { flex: 0 0 auto; border: 1px solid var(--line); border-radius: 2px; padding: 9px 14px; background: transparent; color: var(--muted); cursor: pointer; font-size: 12px; font-weight: 600; }
+    .category-button:hover { border-color: var(--green); color: var(--green); }
+    .category-button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: white; }
+    .event-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px 22px; }
+    .event-card { min-width: 0; }
+    .event-image-wrap { height: 215px; position: relative; overflow: hidden; background: #d3d6c8; }
+    .event-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+    .event-card:hover .event-image-wrap img { transform: scale(1.035); }
+    .event-category { position: absolute; top: 12px; left: 12px; padding: 6px 9px; background: var(--paper); color: var(--ink); font-size: 10px; font-weight: 700; }
+    .event-date { display: flex; align-items: baseline; gap: 8px; margin: 17px 0 7px; color: var(--green); font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    .event-date span { color: var(--muted); font-size: 11px; font-weight: 500; text-transform: none; }
+    .event-card h3 { margin: 0 0 7px; font-family: var(--serif); font-size: 23px; font-weight: 500; line-height: 1.2; }
+    .event-location { margin: 0; color: var(--muted); font-size: 12px; }
+    .event-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+    .event-price { font-size: 12px; font-weight: 700; }
+    .event-price span { color: var(--muted); font-weight: 500; }
+    .reserve-link { border: 0; padding: 5px 0 5px 8px; background: transparent; color: var(--green); cursor: pointer; font-size: 12px; font-weight: 700; }
+    .reserve-link:hover { color: var(--coral); }
+    .empty-state { grid-column: 1 / -1; padding: 60px 15px; text-align: center; color: var(--muted); border: 1px dashed var(--line); }
+    .empty-state h3 { margin: 0 0 8px; color: var(--ink); font-family: var(--serif); font-size: 24px; font-weight: 500; }
+
+    .site-footer { padding: 23px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 18px; }
+    .site-footer p { margin: 0; }
+
+    dialog { width: min(490px, calc(100% - 30px)); max-height: min(82vh, 720px); padding: 0; border: 0; background: var(--white); color: var(--ink); box-shadow: 0 24px 80px rgba(20, 31, 26, .24); }
+    dialog::backdrop { background: rgba(14, 23, 19, .55); backdrop-filter: blur(2px); }
+    .dialog-content { padding: 25px; }
+    .dialog-header { display: flex; align-items: start; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+    .dialog-header .eyebrow { margin-bottom: 8px; }
+    .dialog-header h2 { margin: 0; font-family: var(--serif); font-size: 29px; font-weight: 500; }
+    .close-button { width: 34px; height: 34px; flex: 0 0 auto; border: 1px solid var(--line); border-radius: 50%; background: transparent; cursor: pointer; font-size: 19px; line-height: 1; }
+    .close-button:hover { background: var(--paper); }
+    .booking-event { margin: 0 0 18px; padding-bottom: 17px; border-bottom: 1px solid var(--line); }
+    .booking-event strong { display: block; margin-bottom: 5px; font-family: var(--serif); font-size: 21px; font-weight: 500; }
+    .booking-event span { color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .quantity-row, .total-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .quantity-row { margin: 18px 0 21px; font-size: 13px; font-weight: 600; }
+    .quantity-control { display: inline-flex; align-items: center; gap: 15px; }
+    .quantity-control button { width: 31px; height: 31px; border: 1px solid var(--line); border-radius: 50%; background: transparent; cursor: pointer; font-size: 17px; }
+    .quantity-control button:disabled { opacity: .35; cursor: default; }
+    .quantity-value { min-width: 14px; text-align: center; }
+    .total-row { padding: 15px 0; border-top: 1px solid var(--line); font-size: 13px; }
+    .total-row strong { font-size: 18px; }
+    .dialog-note { margin: 2px 0 17px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .dialog-action { width: 100%; }
+    .booking-list { display: grid; gap: 10px; max-height: 54vh; overflow: auto; }
+    .booking-item { padding: 14px 0; border-top: 1px solid var(--line); }
+    .booking-item:first-child { border-top: 0; padding-top: 0; }
+    .booking-item-top { display: flex; justify-content: space-between; gap: 14px; }
+    .booking-item strong { font-family: var(--serif); font-size: 18px; font-weight: 500; }
+    .booking-item p { margin: 5px 0 9px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .booking-item .booking-total { flex: 0 0 auto; font-size: 12px; font-weight: 700; }
+    .cancel-button { padding: 0; border: 0; background: transparent; color: #a24632; cursor: pointer; font-size: 11px; font-weight: 700; }
+    .confirmation-mark { width: 48px; height: 48px; margin-bottom: 17px; display: grid; place-items: center; border-radius: 50%; background: var(--lime); color: var(--green); font-size: 24px; }
+    .confirmation-copy { color: var(--muted); font-size: 13px; line-height: 1.65; }
+
+    @media (max-width: 800px) {
+      .shell { width: min(100% - 40px, 650px); }
+      .hero { grid-template-columns: 1fr; gap: 30px; padding: 43px 0 45px; }
+      .hero-art, .hero-art img { min-height: 300px; height: 330px; }
+      .event-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .event-image-wrap { height: 190px; }
+    }
+    @media (max-width: 520px) {
+      .shell { width: calc(100% - 32px); }
+      .site-header { height: 67px; }
+      .header-nav { gap: 14px; }
+      .header-nav a { display: none; }
+      .bookings-button { padding: 9px 11px; }
+      h1 { font-size: 48px; }
+      .hero { padding-top: 35px; }
+      .hero-art, .hero-art img { min-height: 260px; height: 280px; }
+      .hero-event { left: 17px; right: 17px; bottom: 17px; }
+      .hero-event h2 { font-size: 23px; }
+      .hero-event p { max-width: 220px; line-height: 1.5; }
+      .section-heading h2 { font-size: 30px; }
+      .event-grid { grid-template-columns: 1fr; gap: 26px; }
+      .event-image-wrap { height: 230px; }
+      .events-section { padding-top: 31px; }
+      .footer-inner { flex-direction: column; gap: 7px; }
+      .dialog-content { padding: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#top" aria-label="OFFSCRIPT home"><span class="brand-mark" aria-hidden="true">o</span> OFFSCRIPT</a>
+      <nav class="header-nav" aria-label="Main navigation">
+        <a href="#events">Discover</a>
+        <a href="#about">About</a>
+        <button class="bookings-button" id="open-bookings" type="button">My bookings <span class="booking-count" id="booking-count">0</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="shell hero" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">Make room for a good time</p>
+        <h1 id="hero-title">Plans worth <em>showing up</em> for.</h1>
+        <p class="hero-copy">Find your next favorite night out, new idea, or unexpected connection. Good things happen when you get out there.</p>
+        <form class="search-form" id="search-form" role="search">
+          <span class="search-symbol" aria-hidden="true">⌕</span>
+          <label class="sr-only" for="event-search">Search events or places</label>
+          <input id="event-search" type="search" placeholder="Try “live music” or “Brooklyn”" autocomplete="off">
+          <button type="submit">Find events</button>
+        </form>
+      </div>
+      <div class="hero-art">
+        <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" alt="A crowd enjoying a live outdoor concert">
+        <div class="hero-event">
+          <div>
+            <small>Editor’s pick · October 24</small>
+            <h2>Under the Open Sky</h2>
+            <p>Live music, local food, one very good evening.</p>
+          </div>
+          <button id="featured-book" type="button" aria-label="Book Under the Open Sky">→</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="events-section" id="events" aria-labelledby="events-title">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">A little something for everyone</p>
+            <h2 id="events-title">Find your thing.</h2>
+          </div>
+          <p class="result-count" id="result-count" aria-live="polite"></p>
+        </div>
+        <div class="category-list" role="group" aria-label="Filter events by category" id="category-list">
+          <button class="category-button" type="button" aria-pressed="true" data-category="All">All events</button>
+          <button class="category-button" type="button" aria-pressed="false" data-category="Music">Music</button>
+          <button class="category-button" type="button" aria-pressed="false" data-category="Food & drink">Food &amp; drink</button>
+          <button class="category-button" type="button" aria-pressed="false" data-category="Arts & culture">Arts &amp; culture</button>
+          <button class="category-button" type="button" aria-pressed="false" data-category="Workshops">Workshops</button>
+          <button class="category-button" type="button" aria-pressed="false" data-category="Outdoors">Outdoors</button>
+        </div>
+        <div class="event-grid" id="event-grid" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="about">
+    <div class="shell footer-inner">
+      <p><strong>OFFSCRIPT</strong> · Make a night of it.</p>
+      <p>Reservations are held in this browser. No payment is collected.</p>
+    </div>
+  </footer>
+
+  <dialog id="booking-dialog" aria-labelledby="dialog-title"></dialog>
+
+  <script>
+    const events = [
+      { id: "open-sky", title: "Under the Open Sky", category: "Music", date: "2026-10-24", time: "6:30 PM", venue: "Brooklyn Mirage · Brooklyn, NY", price: 38, image: "photo-1501386761578-eac5c94b800a", description: "A long-table dinner, local makers, and live sets under the autumn sky." },
+      { id: "supper-club", title: "The Sunday Supper Club", category: "Food & drink", date: "2026-10-18", time: "7:00 PM", venue: "Little Fern · Brooklyn, NY", price: 64, image: "photo-1519671482749-fd09be7ccebf", description: "A seasonal five-course menu made for meeting new people." },
+      { id: "print-room", title: "The Print Room Sessions", category: "Arts & culture", date: "2026-10-29", time: "7:30 PM", venue: "The Bell House · Brooklyn, NY", price: 22, image: "photo-1516450360452-9312f5e86fc7", description: "An intimate evening of new voices, small presses, and live readings." },
+      { id: "clay-day", title: "A Day With Clay", category: "Workshops", date: "2026-11-07", time: "11:00 AM", venue: "Soft Corner Studio · Queens, NY", price: 48, image: "photo-1452860606245-08befc0ff44b", description: "Get your hands muddy and make a one-of-a-kind piece to take home." },
+      { id: "city-garden", title: "The City Garden Walk", category: "Outdoors", date: "2026-10-31", time: "10:00 AM", venue: "Meet at Fort Greene Park · Brooklyn, NY", price: 15, image: "photo-1441974231531-c6227db76b6e", description: "A guided wander through neighborhood gardens and hidden green spaces." },
+      { id: "after-hours", title: "After Hours: Good Company", category: "Music", date: "2026-11-13", time: "8:00 PM", venue: "Elsewhere · Brooklyn, NY", price: 32, image: "photo-1492684223066-81342ee5ff30", description: "A dance-floor-first lineup of local selectors and very good sound." }
+    ];
+    const imageUrl = (photo, width = 900) => `https://images.unsplash.com/${photo}?auto=format&fit=crop&w=${width}&q=80`;
+    const dateParts = (date) => {
+      const parsed = new Date(`${date}T12:00:00`);
+      return { day: new Intl.DateTimeFormat("en", { weekday: "short" }).format(parsed), full: new Intl.DateTimeFormat("en", { month: "short", day: "numeric" }).format(parsed) };
+    };
+    const money = (amount) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(amount);
+    const grid = document.querySelector("#event-grid");
+    const dialog = document.querySelector("#booking-dialog");
+    const searchInput = document.querySelector("#event-search");
+    let activeCategory = "All";
+    let activeEvent = null;
+    let ticketCount = 1;
+    let bookings = readBookings();
+
+    function readBookings() {
+      try {
+        const saved = JSON.parse(localStorage.getItem("offscript-bookings") || "[]");
+        return Array.isArray(saved) ? saved.filter((booking) => events.some((event) => event.id === booking.eventId) && Number.isInteger(booking.quantity) && booking.quantity > 0) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveBookings() {
+      localStorage.setItem("offscript-bookings", JSON.stringify(bookings));
+      document.querySelector("#booking-count").textContent = bookings.length;
+    }
+
+    function renderEvents() {
+      const term = searchInput.value.trim().toLowerCase();
+      const visibleEvents = events.filter((event) => {
+        const matchesCategory = activeCategory === "All" || event.category === activeCategory;
+        const haystack = `${event.title} ${event.category} ${event.venue} ${event.description}`.toLowerCase();
+        return matchesCategory && haystack.includes(term);
+      });
+      document.querySelector("#result-count").textContent = `${visibleEvents.length} ${visibleEvents.length === 1 ? "event" : "events"}`;
+      if (!visibleEvents.length) {
+        grid.innerHTML = '<div class="empty-state"><h3>No events found just yet.</h3><p>Try another search or choose a different category.</p></div>';
+        return;
+      }
+      grid.innerHTML = visibleEvents.map((event) => {
+        const date = dateParts(event.date);
+        return `<article class="event-card">
+          <div class="event-image-wrap"><img src="${imageUrl(event.image)}" alt="" loading="lazy"><span class="event-category">${event.category}</span></div>
+          <p class="event-date">${date.day}<span>${date.full} · ${event.time}</span></p>
+          <h3>${event.title}</h3>
+          <p class="event-location">${event.venue}</p>
+          <div class="event-bottom"><span class="event-price">${money(event.price)} <span>/ ticket</span></span><button class="reserve-link" type="button" data-book="${event.id}">Reserve <span aria-hidden="true">→</span></button></div>
+        </article>`;
+      }).join("");
+    }
+
+    function openDialog(content) {
+      dialog.innerHTML = `<div class="dialog-content">${content}</div>`;
+      if (!dialog.open) dialog.showModal();
+    }
+
+    function renderBooking() {
+      if (!activeEvent) return;
+      const date = dateParts(activeEvent.date);
+      openDialog(`<div class="dialog-header"><div><p class="eyebrow">Save your spot</p><h2 id="dialog-title">Book tickets</h2></div><button class="close-button" type="button" data-close aria-label="Close">×</button></div>
+        <div class="booking-event"><strong>${activeEvent.title}</strong><span>${date.day}, ${date.full} at ${activeEvent.time}<br>${activeEvent.venue}</span></div>
+        <div class="quantity-row"><span>Tickets · ${money(activeEvent.price)} each</span><div class="quantity-control"><button type="button" data-step="-1" aria-label="Remove one ticket" ${ticketCount <= 1 ? "disabled" : ""}>−</button><span class="quantity-value" aria-live="polite">${ticketCount}</span><button type="button" data-step="1" aria-label="Add one ticket" ${ticketCount >= 8 ? "disabled" : ""}>+</button></div></div>
+        <div class="total-row"><span>Total</span><strong>${money(activeEvent.price * ticketCount)}</strong></div>
+        <p class="dialog-note">This reserves your tickets in this browser. No payment is collected.</p>
+        <button class="primary-button dialog-action" type="button" data-confirm>Confirm reservation</button>`);
+    }
+
+    function renderBookings() {
+      const rows = bookings.map((booking) => {
+        const event = events.find((item) => item.id === booking.eventId);
+        const date = dateParts(event.date);
+        return `<article class="booking-item"><div class="booking-item-top"><div><strong>${event.title}</strong><p>${date.day}, ${date.full} at ${event.time}<br>${booking.quantity} ${booking.quantity === 1 ? "ticket" : "tickets"} · ${event.venue}</p><button class="cancel-button" type="button" data-cancel="${booking.id}">Cancel reservation</button></div><span class="booking-total">${money(event.price * booking.quantity)}</span></div></article>`;
+      }).join("");
+      openDialog(`<div class="dialog-header"><div><p class="eyebrow">Your plans</p><h2 id="dialog-title">My bookings</h2></div><button class="close-button" type="button" data-close aria-label="Close">×</button></div>
+        ${bookings.length ? `<div class="booking-list">${rows}</div>` : '<div class="empty-state"><h3>Nothing on the calendar yet.</h3><p>Find an event and save yourself a spot.</p></div>'}`);
+    }
+
+    document.querySelector("#category-list").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-category]");
+      if (!button) return;
+      activeCategory = button.dataset.category;
+      document.querySelectorAll(".category-button").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+      renderEvents();
+    });
+    document.querySelector("#search-form").addEventListener("submit", (event) => event.preventDefault());
+    searchInput.addEventListener("input", renderEvents);
+    grid.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-book]");
+      if (!button) return;
+      activeEvent = events.find((item) => item.id === button.dataset.book);
+      ticketCount = 1;
+      renderBooking();
+    });
+    document.querySelector("#featured-book").addEventListener("click", () => {
+      activeEvent = events.find((event) => event.id === "open-sky");
+      ticketCount = 1;
+      renderBooking();
+    });
+    document.querySelector("#open-bookings").addEventListener("click", renderBookings);
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog || event.target.closest("[data-close]")) {
+        dialog.close();
+        return;
+      }
+      const stepButton = event.target.closest("[data-step]");
+      if (stepButton) {
+        ticketCount = Math.min(8, Math.max(1, ticketCount + Number(stepButton.dataset.step)));
+        renderBooking();
+        return;
+      }
+      if (event.target.closest("[data-confirm]")) {
+        bookings.push({ id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, eventId: activeEvent.id, quantity: ticketCount });
+        saveBookings();
+        const date = dateParts(activeEvent.date);
+        openDialog(`<div class="dialog-header"><div><p class="eyebrow">All set</p><h2 id="dialog-title">You're on the list.</h2></div><button class="close-button" type="button" data-close aria-label="Close">×</button></div>
+          <div class="confirmation-mark" aria-hidden="true">✓</div><p class="confirmation-copy">${ticketCount} ${ticketCount === 1 ? "ticket is" : "tickets are"} reserved for <strong>${activeEvent.title}</strong> on ${date.full}. You can find or cancel this reservation under My bookings.</p><button class="primary-button dialog-action" type="button" data-close>Done</button>`);
+        return;
+      }
+      const cancelButton = event.target.closest("[data-cancel]");
+      if (cancelButton) {
+        bookings = bookings.filter((booking) => booking.id !== cancelButton.dataset.cancel);
+        saveBookings();
+        renderBookings();
+      }
+    });
+    dialog.addEventListener("close", () => { activeEvent = null; });
+
+    saveBookings();
+    renderEvents();
+  </script>
+</body>
+</html>
